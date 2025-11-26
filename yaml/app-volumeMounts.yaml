@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go-demo-app-volume
+  labels:
+    app: go-demo-app-volume
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: go-demo-app-volume
+  template:
+    metadata:
+      labels:
+        app: go-demo-app-volume
+    spec:
+      containers:
+        - name: go-demo-app
+          image: den-vasyliev/go-demo-app:1.0.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+          volumeMounts:
+            - name: app-data
+              mountPath: /data
+      volumes:
+        - name: app-data
+          persistentVolumeClaim:
+            claimName: app-pvc
