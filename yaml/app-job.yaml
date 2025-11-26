@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: go-demo-app-job
+  labels:
+    app: go-demo-app-job
+spec:
+  backoffLimit: 1
+  template:
+    metadata:
+      labels:
+        app: go-demo-app-job
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: go-demo-app
+          image: den-vasyliev/go-demo-app:1.0.0
+          imagePullPolicy: IfNotPresent
+          args:
+            - "--task"
+            - "migrate"
